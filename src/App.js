@@ -1,23 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { TodoForm } from "./components/TodoForm/TodoForm";
+import { TodoList } from "./components/TodoList/TodoList";
+import { TodoHeader } from "./components/TodoHeader/TodoHeader";
+import { Todo } from "./components/Todo/Todo";
+import { useTodos } from "./components/TodoContext";
+import { TodoSearch } from "./components/TodoSearch/TodoSearch";
+import { TodoLoading } from "./components/TodoLoading/TodoLoading";
+import { TodoCounter } from "./components/TodoCounter/TodoCounter";
+import { ChangeAlert } from "./components/ChangeAlert";
 
 function App() {
+  const {
+    loading,
+    todos,
+    deleteTodo,
+    completeTodo,
+    completedTodos,
+    totalTodos,
+    saveTodos,
+    sincronizeTodos,
+  } = useTodos();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="bg-slate-300 h-screen w-screen flex flex-row flex-wrap items-center justify-center">
+      <TodoForm todos={todos} saveTodos={saveTodos} />
+      <aside className="flex flex-col items-center justify-items-center">
+        <TodoHeader loading={loading}>
+          <TodoCounter
+            completedTodos={completedTodos}
+            totalTodos={totalTodos}
+          />
+          <TodoSearch />
+        </TodoHeader>
+        <TodoList
+          loading={loading}
+          todos={todos}
+          onLoading={() => <TodoLoading />}
+          onRender={(t) => (
+            <Todo
+              key={t.id}
+              id={t.id}
+              text={t.text}
+              completed={t.completed}
+              completeTodo={completeTodo}
+              deleteTodo={deleteTodo}
+            />
+          )}
         >
-          Learn React
-        </a>
-      </header>
+          {(t) => (
+            <Todo
+              key={t.id}
+              id={t.id}
+              text={t.text}
+              completed={t.completed}
+              completeTodo={completeTodo}
+              deleteTodo={deleteTodo}
+            />
+          )}
+        </TodoList>
+        <ChangeAlert sincronize={sincronizeTodos} />
+      </aside>
     </div>
   );
 }
