@@ -12,4 +12,4 @@ some basic concepts in React
 
 ## Technology
 
-(https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white) ![React]
+![React](https://img.shields.io/badge/React-Reactjs-blue?style=for-the-badge&logo=appveyor)
